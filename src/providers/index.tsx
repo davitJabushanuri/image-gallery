@@ -38,12 +38,15 @@ interface IErrorFallback {
   resetErrorBoundary: () => void;
 }
 
-const ErrorFallback: FC<IErrorFallback> = ({ error, resetErrorBoundary }) => {
+export const ErrorFallback: FC<IErrorFallback> = ({
+  error,
+  resetErrorBoundary,
+}) => {
   return (
     <div className={styles.container} role="alert">
       <div className={styles.alert}>
         <h2>Something's broken</h2>
-        <pre>{error.message}</pre>
+        <p>{error.message}</p>
         <button onClick={() => resetErrorBoundary()}>Try again</button>
       </div>
     </div>
