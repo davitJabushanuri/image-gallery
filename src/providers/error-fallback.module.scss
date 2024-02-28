@@ -1,0 +1,44 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--clr-base-100);
+
+  .alert {
+    text-align: center;
+    h2 {
+      margin-bottom: 1rem;
+      font-size: clamp(2rem, 2rem + 2vw, 5rem);
+      font-weight: 700;
+      text-shadow: 0 0 20px var(--clr-text-100);
+    }
+
+    pre {
+      margin-top: 2rem;
+      font-size: 1.4rem;
+    }
+
+    button {
+      background-color: var(--clr-text-100);
+      color: var(--clr-base-100);
+      padding: 0.8rem 1.6rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+
+      &:hover {
+        background-color: var(--clr-text-200);
+      }
+
+      &:active {
+        background-color: var(--clr-text-300);
+      }
+    }
+  }
+}
