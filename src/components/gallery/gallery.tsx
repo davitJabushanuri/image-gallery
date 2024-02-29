@@ -1,7 +1,7 @@
-import { FC } from "react";
-import styles from "./gallery.module.scss";
-import { useGetImages } from "@/hooks/use-get-images";
+import { FC, useState, useRef, useEffect } from "react";
+import { useSearchImages } from "@/hooks/use-search-images";
 
+import styles from "./gallery.module.scss";
 interface IGallery {
   query: string;
 }
@@ -15,7 +15,24 @@ export const Gallery: FC<IGallery> = ({ query }) => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useGetImages({ query });
+  } = useSearchImages({ query });
+
+  const [isIntersecting, setIsIntersecting] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+    });
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    if (isIntersecting && hasNextPage) {
+      fetchNextPage();
+    }
+
+    return () => observer.disconnect();
+  }, [hasNextPage, isIntersecting, fetchNextPage]);
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -26,16 +43,29 @@ export const Gallery: FC<IGallery> = ({ query }) => {
       {isSuccess &&
         images?.pages.map((page) => {
           return page?.results?.map((image, i) => {
-            return (
-              <div key={image.id}>
-                <img
-                  key={i}
-                  src={image?.urls.regular}
-                  alt={image?.title}
-                  className={styles.image}
-                />
-              </div>
-            );
+            if (i === page.results.length - 1) {
+              return (
+                <div ref={ref} key={image.id}>
+                  <img
+                    key={i}
+                    src={image?.urls.regular}
+                    alt={image?.title}
+                    className={styles.image}
+                  />
+                </div>
+              );
+            } else {
+              return (
+                <div key={image.id}>
+                  <img
+                    key={i}
+                    src={image?.urls.regular}
+                    alt={image?.title}
+                    className={styles.image}
+                  />
+                </div>
+              );
+            }
           });
         })}
       {isFetchingNextPage && <div>Loading more...</div>}
