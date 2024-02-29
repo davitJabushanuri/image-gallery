@@ -9,13 +9,26 @@ interface ISearch {
 
 export const Search: FC<ISearch> = ({ setQuery }) => {
   const [value, setValue] = useState<string>("");
-  const debouncedValue = useDebounce(value);
+  const debouncedValue = useDebounce(value, 1000);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
 
   useEffect(() => {
-    setQuery(debouncedValue);
+    setQuery(debouncedValue.trim());
+
+    if (debouncedValue.trim() !== "") {
+      const searchQueries =
+        JSON.parse(localStorage.getItem("searchQuery") as string) || [];
+      const index = searchQueries.indexOf(debouncedValue);
+
+      if (index > -1) {
+        searchQueries.splice(index, 1);
+      }
+
+      searchQueries.push(debouncedValue);
+      localStorage.setItem("searchQuery", JSON.stringify(searchQueries));
+    }
   }, [debouncedValue, setQuery]);
 
   return (
