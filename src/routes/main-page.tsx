@@ -1,4 +1,5 @@
 import { Gallery } from "@/components/gallery";
+import { PopularImages } from "@/components/popular-images";
 import { Search } from "@/components/search";
 import { useState } from "react";
 
@@ -9,7 +10,7 @@ export const MainPage = () => {
     <div style={{ paddingInline: "1rem" }}>
       <Search setQuery={setQuery} />
 
-      <Gallery query={query} />
+      {query === "" ? <PopularImages /> : <Gallery query={query} />}
     </div>
   );
 };

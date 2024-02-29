@@ -6,7 +6,7 @@ interface IUserGetImages {
 
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 
-export const useGetImages = ({ query = "popular" }: IUserGetImages) => {
+export const useSearchImages = ({ query }: IUserGetImages) => {
   return useInfiniteQuery({
     queryKey: ["images", query],
     queryFn: ({ pageParam = 1 }) => fetchImages(query, pageParam),
@@ -18,11 +18,12 @@ export const useGetImages = ({ query = "popular" }: IUserGetImages) => {
 };
 
 const fetchImages = async (query: string, pageParam: number) => {
+  const URL =
+    `https://api.unsplash.com/search/photos?query=${query}&client_id=${ACCESS_KEY}&per_page=10&page=` +
+    pageParam;
+
   try {
-    const response = await fetch(
-      `https://api.unsplash.com/search/photos?query=${query}&client_id=${ACCESS_KEY}&per_page=10&page=` +
-        pageParam,
-    );
+    const response = await fetch(URL);
     const data = await response.json();
     return data;
   } catch (error) {
