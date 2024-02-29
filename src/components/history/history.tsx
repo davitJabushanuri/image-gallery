@@ -18,7 +18,7 @@ export const History: FC<IHistory> = ({ setQuery }) => {
 
   return (
     <div className={styles.container}>
-      {history?.map((query: string) => {
+      {history?.reverse()?.map((query: string) => {
         return (
           <div key={query}>
             <button className={styles.search} onClick={() => setQuery(query)}>
