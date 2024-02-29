@@ -1,41 +1,48 @@
 .container {
-  background-color: var(--clr-secondary);
-  box-shadow: 0 0 0 1px var(--clr-secondary);
-  border-radius: 100vmax;
-  transition: background-color 0.1s ease-in-out;
+  background-color: var(--clr-base-100);
+  position: sticky;
+  top: 0;
+  padding: 0.6rem 0;
+  form {
+    background-color: var(--clr-secondary);
+    box-shadow: 0 0 0 1px var(--clr-secondary);
+    border-radius: 0.5rem;
+    transition: background-color 0.1s ease-in-out;
 
-  &:hover {
-    background-color: color-mix(
-      in srgb,
-      var(--clr-secondary) 100%,
-      var(--clr-text-100) 5%
-    );
-  }
-
-  &:has(:focus) {
-    background-color: var(--clr-base-100);
-  }
-
-  label {
-    cursor: text;
-    padding: 0.6rem 1rem;
-    display: flex;
-    gap: 0.5rem;
-
-    svg {
-      fill: var(--clr-tertiary);
-      width: 1.2rem;
+    &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--clr-secondary) 100%,
+        var(--clr-text-100) 5%
+      );
     }
 
-    input {
-      width: 100%;
+    &:has(:focus) {
+      background-color: var(--clr-base-100);
+    }
 
-      &::placeholder {
-        color: var(--clr-tertiary);
+    label {
+      cursor: text;
+      padding: 0.6rem 1rem;
+      display: flex;
+      gap: 0.5rem;
+
+      svg {
+        fill: var(--clr-tertiary);
+        width: 1.2rem;
       }
 
-      &::-webkit-search-cancel-button {
-        cursor: pointer;
+      input {
+        width: 100%;
+        font-size: 14px;
+
+        &::placeholder {
+          color: var(--clr-tertiary);
+        }
+
+        &::-webkit-search-cancel-button {
+          cursor: pointer;
+        }
       }
     }
   }

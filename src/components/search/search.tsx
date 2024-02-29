@@ -32,19 +32,21 @@ export const Search: FC<ISearch> = ({ setQuery }) => {
   }, [debouncedValue, setQuery]);
 
   return (
-    <form className={styles.container} role="search" aria-label="Search images">
-      <label htmlFor="search">
-        <SearchIcon />
-        <input
-          value={value}
-          onChange={handleSearch}
-          id="search"
-          type="search"
-          autoComplete="off"
-          aria-autocomplete="list"
-          placeholder="Search images"
-        />
-      </label>
-    </form>
+    <div className={styles.container}>
+      <form role="search" aria-label="Search images">
+        <label htmlFor="search">
+          <SearchIcon />
+          <input
+            value={value}
+            onChange={handleSearch}
+            id="search"
+            type="search"
+            autoComplete="off"
+            aria-autocomplete="list"
+            placeholder="Search images"
+          />
+        </label>
+      </form>
+    </div>
   );
 };
