@@ -10,6 +10,16 @@
   --clr-secondary: rgb(238, 238, 238);
   --clr-tertiary: rgb(118, 118, 118);
   --clr-error: rgb(226, 92, 61);
+
+  --columns: 1;
+
+  @media (min-width: 768px) {
+    --columns: 2;
+  }
+
+  @media (min-width: 1024px) {
+    --columns: 3;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
