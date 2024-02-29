@@ -1,0 +1,83 @@
+.container {
+  background-color: var(--clr-base-100);
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--clr-secondary);
+
+  // style for the scrollbar
+  &::-webkit-scrollbar {
+    height: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--clr-tertiary);
+    border-radius: 100vmax;
+    border-radius: 100vmax;
+  }
+
+  div {
+    position: relative;
+    width: fit-content;
+    border-radius: 100vmax;
+    border: 1px solid var(--clr-secondary);
+    transition: background-color 0.2s ease-in-out;
+
+    &:has(:hover) {
+      background-color: var(--clr-secondary);
+    }
+
+    &:has(:active) {
+      background-color: color-mix(
+        in srgb,
+        var(--clr-secondary) 100%,
+        var(--clr-text-100) 5%
+      );
+    }
+
+    button {
+      display: flex;
+      color: var(--clr-tertiary);
+      border-radius: 100vmax;
+      outline-offset: 0;
+    }
+
+    .search {
+      padding: 0.6rem 3rem 0.6rem 1rem;
+      white-space: nowrap;
+    }
+
+    .delete {
+      position: absolute;
+      right: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0.2rem;
+
+      &:hover {
+        svg {
+          fill: var(--clr-text-100);
+        }
+      }
+
+      &:focus-visible {
+        svg {
+          fill: var(--clr-text-100);
+        }
+      }
+
+      svg {
+        width: 1rem;
+      }
+    }
+  }
+}
+
+.emptyHistory {
+  padding: 2rem 0;
+  font-size: clamp(1.5rem, 1.2rem + 2vw, 2rem);
+  text-align: center;
+}
