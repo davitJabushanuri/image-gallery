@@ -1,4 +1,5 @@
 import { useGetPopularImages } from "@/hooks/use-get-popular-images";
+import { Image } from "@/components/image";
 
 import styles from "./popular-images.module.scss";
 
@@ -14,11 +15,7 @@ export const PopularImages = () => {
       {data?.map((image) => {
         return (
           <div key={image.id}>
-            <img
-              src={image?.urls.regular}
-              alt={image?.alt_description}
-              title={image.description}
-            />
+            <Image image={image} />
           </div>
         );
       })}

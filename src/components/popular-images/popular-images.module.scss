@@ -4,8 +4,4 @@
   align-items: start;
   gap: 1rem;
   grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
-
-  img {
-    width: 100%;
-  }
 }

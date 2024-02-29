@@ -1,5 +1,7 @@
 import { FC, useState, useRef, useEffect } from "react";
 import { useSearchImages } from "@/hooks/use-search-images";
+import { IPhoto } from "../types";
+import { Image } from "@/components/image";
 
 import styles from "./gallery.module.scss";
 interface IGallery {
@@ -42,27 +44,17 @@ export const Gallery: FC<IGallery> = ({ query }) => {
     <div className={styles.container}>
       {isSuccess &&
         images?.pages.map((page) => {
-          return page?.results?.map((image, i) => {
+          return page?.results?.map((image: IPhoto, i: number) => {
             if (i === page.results.length - 1) {
               return (
                 <div ref={ref} key={image.id}>
-                  <img
-                    key={i}
-                    src={image?.urls.regular}
-                    alt={image?.title}
-                    className={styles.image}
-                  />
+                  <Image image={image} />
                 </div>
               );
             } else {
               return (
                 <div key={image.id}>
-                  <img
-                    key={i}
-                    src={image?.urls.regular}
-                    alt={image?.title}
-                    className={styles.image}
-                  />
+                  <Image image={image} />
                 </div>
               );
             }
