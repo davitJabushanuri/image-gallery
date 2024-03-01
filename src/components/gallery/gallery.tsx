@@ -5,6 +5,7 @@ import { Image } from "@/components/image";
 import styles from "./gallery.module.scss";
 import { IPhoto } from "../types";
 import { NoResults } from "../no-results";
+import { LoadingSpinner } from "../loading-spinner";
 interface IGallery {
   query: string;
 }
@@ -46,7 +47,7 @@ export const Gallery: FC<IGallery> = ({ query }) => {
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isIntersecting]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
 
   if (isError) return <div>Error</div>;
 
@@ -55,21 +56,23 @@ export const Gallery: FC<IGallery> = ({ query }) => {
   }
 
   return (
-    <div className={styles.container}>
-      {isSuccess &&
-        images?.pages.map((page: IPage) => {
-          return page?.results?.map((image, i) => {
-            return (
-              <div
-                ref={i === page.results.length - 1 ? ref : null}
-                key={image.id}
-              >
-                <Image image={image} />
-              </div>
-            );
-          });
-        })}
-      {isFetchingNextPage && <div>Loading more...</div>}
-    </div>
+    <>
+      <div className={styles.container}>
+        {isSuccess &&
+          images?.pages.map((page: IPage) => {
+            return page?.results?.map((image, i) => {
+              return (
+                <div
+                  ref={i === page.results.length - 1 ? ref : null}
+                  key={image.id}
+                >
+                  <Image image={image} />
+                </div>
+              );
+            });
+          })}
+      </div>
+      {isFetchingNextPage && <LoadingSpinner />}
+    </>
   );
 };

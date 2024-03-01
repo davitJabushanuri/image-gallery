@@ -8,6 +8,8 @@ export interface IPhoto {
   likes: number;
   urls: IUrls;
   create_at: Date;
+  views: number;
+  downloads: number;
 }
 
 interface IUrls {

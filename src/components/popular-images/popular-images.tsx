@@ -2,11 +2,12 @@ import { useGetPopularImages } from "@/hooks/use-get-popular-images";
 import { Image } from "@/components/image";
 
 import styles from "./popular-images.module.scss";
+import { LoadingSpinner } from "../loading-spinner";
 
 export const PopularImages = () => {
   const { data, isLoading, isError } = useGetPopularImages();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
 
   if (isError) return <div>Error</div>;
 

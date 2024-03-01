@@ -3,6 +3,8 @@ import { FC } from "react";
 import styles from "./modal.module.scss";
 import { CloseIcon } from "@/assets/close-icon";
 import { useQuery } from "@tanstack/react-query";
+import { LoadingSpinner } from "../loading-spinner";
+import { IPhoto } from "../types";
 
 interface IModal {
   image_id: string;
@@ -27,12 +29,12 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
     data: image,
     isLoading,
     isError,
-  } = useQuery({
+  } = useQuery<IPhoto>({
     queryKey: ["images", image_id],
     queryFn: () => fetchImage(image_id),
   });
 
-  if (isLoading || isError) return null;
+  if (isError) return <div>Error</div>;
 
   return (
     <dialog
@@ -53,15 +55,42 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
         >
           <CloseIcon />
         </button>
-        <div className={styles.image}>
-          <img src={image.urls.regular} alt={image.alt_description} />
-        </div>
+        {isLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <div className={styles.image}>
+            <img src={image?.urls.regular} alt={image?.alt_description} />
+          </div>
+        )}
 
-        <div className={styles.stats}>
-          <Stat label="Views" value={image.views} />
-          <Stat label="Likes" value={image.likes} />
-          <Stat label="Downloads" value={image.downloads} />
-        </div>
+        {isLoading ? (
+          <div className={styles.stats}>
+            <Stat label="Views">
+              <Skeleton width="120px" />
+            </Stat>
+            <Stat label="Likes">
+              <Skeleton width="70px" />
+            </Stat>
+            <Stat label="Downloads">
+              <Skeleton width="80px" />
+            </Stat>
+          </div>
+        ) : (
+          <div className={styles.stats}>
+            <Stat label="Views">{image?.views.toLocaleString()}</Stat>
+            <Stat label="Likes">{image?.likes.toLocaleString()}</Stat>
+            <Stat label="Downloads">{image?.downloads.toLocaleString()}</Stat>
+          </div>
+        )}
       </div>
     </dialog>
   );
@@ -69,14 +98,30 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
 
 interface IStat {
   label: string;
-  value: number;
+  children?: React.ReactNode;
 }
 
-const Stat = ({ label, value }: IStat) => {
+const Stat = ({ label, children }: IStat) => {
   return (
     <div className={styles.stat}>
       <span>{label}</span>
-      {value.toLocaleString()}
+      {children}
     </div>
+  );
+};
+
+interface ISkeleton {
+  width?: string;
+}
+
+const Skeleton = ({ width }: ISkeleton) => {
+  return (
+    <div
+      style={{
+        width: width ?? "100%",
+        height: "1.2rem",
+      }}
+      className={styles.skeleton}
+    ></div>
   );
 };
