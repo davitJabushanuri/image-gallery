@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 
 import styles from "./modal.module.scss";
 import { CloseIcon } from "@/assets/close-icon";
@@ -20,7 +20,7 @@ const fetchImage = async (image_id: string) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to fetch image");
   }
 };
 
@@ -30,9 +30,71 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
     queryFn: () => fetchImage(image_id),
   });
 
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedElementRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const focusableElements = Array.from(
+      modal.querySelectorAll(
+        'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])',
+      ),
+    );
+
+    const firstFocusableElement = focusableElements[0] as HTMLElement;
+    const lastFocusableElement = focusableElements[
+      focusableElements.length - 1
+    ] as HTMLElement;
+    previouslyFocusedElementRef.current = document.activeElement as HTMLElement;
+
+    firstFocusableElement.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+
+      if (e.key === "Tab") {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusableElement) {
+            e.preventDefault();
+            lastFocusableElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastFocusableElement) {
+            e.preventDefault();
+            firstFocusableElement.focus();
+          }
+        }
+      }
+    };
+
+    modal.addEventListener("keydown", handleKeyDown);
+
+    const handleScroll = (e: Event) => {
+      e.preventDefault();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = "17px";
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      modal.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("scroll", handleScroll);
+      previouslyFocusedElementRef.current?.focus();
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    };
+  }, [onClose]);
+
   return (
-    <dialog
-      open
+    <div
+      role="dialog"
+      aria-modal="true"
+      ref={modalRef}
       className={styles.container}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
@@ -86,7 +148,7 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
           </div>
         )}
       </div>
-    </dialog>
+    </div>
   );
 };
 
