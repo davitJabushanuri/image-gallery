@@ -1,11 +1,18 @@
 import { FC, useState, useRef, useEffect } from "react";
 import { useSearchImages } from "@/hooks/use-search-images";
-import { IPhoto } from "../types";
 import { Image } from "@/components/image";
 
 import styles from "./gallery.module.scss";
+import { IPhoto } from "../types";
+import { NoResults } from "../no-results";
 interface IGallery {
   query: string;
+}
+
+interface IPage {
+  pages: number;
+  total_pages: number;
+  results: IPhoto[];
 }
 
 export const Gallery: FC<IGallery> = ({ query }) => {
@@ -16,13 +23,16 @@ export const Gallery: FC<IGallery> = ({ query }) => {
     isSuccess,
     isFetchingNextPage,
     fetchNextPage,
-    hasNextPage,
   } = useSearchImages({ query });
+
+  const hasNextPage =
+    (images?.pageParams.at(-1) as number) < images?.pages[0].total_pages;
 
   const [isIntersecting, setIsIntersecting] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!ref.current) return;
     const observer = new IntersectionObserver(([entry]) => {
       setIsIntersecting(entry.isIntersecting);
     });
@@ -34,30 +44,29 @@ export const Gallery: FC<IGallery> = ({ query }) => {
     }
 
     return () => observer.disconnect();
-  }, [hasNextPage, isIntersecting, fetchNextPage]);
+  }, [fetchNextPage, hasNextPage, isIntersecting]);
 
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) return <div>Error</div>;
 
+  if (isSuccess && images?.pages[0].results.length === 0) {
+    return <NoResults text="No results found" />;
+  }
+
   return (
     <div className={styles.container}>
       {isSuccess &&
-        images?.pages.map((page) => {
-          return page?.results?.map((image: IPhoto, i: number) => {
-            if (i === page.results.length - 1) {
-              return (
-                <div ref={ref} key={image.id}>
-                  <Image image={image} />
-                </div>
-              );
-            } else {
-              return (
-                <div key={image.id}>
-                  <Image image={image} />
-                </div>
-              );
-            }
+        images?.pages.map((page: IPage) => {
+          return page?.results?.map((image, i) => {
+            return (
+              <div
+                ref={i === page.results.length - 1 ? ref : null}
+                key={image.id}
+              >
+                <Image image={image} />
+              </div>
+            );
           });
         })}
       {isFetchingNextPage && <div>Loading more...</div>}

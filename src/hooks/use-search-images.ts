@@ -1,12 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-interface IUserGetImages {
+interface IuseSearchImages {
   query: string;
 }
 
-const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
-
-export const useSearchImages = ({ query }: IUserGetImages) => {
+export const useSearchImages = ({ query }: IuseSearchImages) => {
   return useInfiniteQuery({
     queryKey: ["images", query],
     queryFn: ({ pageParam = 1 }) => fetchImages(query, pageParam),
@@ -14,13 +12,15 @@ export const useSearchImages = ({ query }: IUserGetImages) => {
     getNextPageParam: (_prevPage, _allPages, lastPage) => {
       return lastPage + 1;
     },
+    enabled: !!query,
   });
 };
 
 const fetchImages = async (query: string, pageParam: number) => {
   const URL =
-    `https://api.unsplash.com/search/photos?query=${query}&client_id=${ACCESS_KEY}&per_page=10&page=` +
-    pageParam;
+    `https://api.unsplash.com/search/photos?query=${query}&client_id=${
+      import.meta.env.VITE_APP_ACCESS_KEY
+    }&per_page=20&page=` + pageParam;
 
   try {
     const response = await fetch(URL);
