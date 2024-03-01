@@ -7,6 +7,8 @@ interface IImage {
 }
 
 import styles from "./image.module.scss";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorToast } from "../error-toast";
 
 export const Image: FC<IImage> = ({ image }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,12 +31,19 @@ export const Image: FC<IImage> = ({ image }) => {
       </button>
 
       {isOpen && (
-        <Modal
-          image_id={image.id}
-          onClose={() => {
-            setIsOpen(false);
+        <ErrorBoundary
+          fallback={<ErrorToast text="There was an error loading this photo" />}
+          onReset={() => {
+            window.location.reload();
           }}
-        />
+        >
+          <Modal
+            image_id={image.id}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+          />
+        </ErrorBoundary>
       )}
     </>
   );

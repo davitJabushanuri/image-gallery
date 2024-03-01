@@ -25,16 +25,10 @@ const fetchImage = async (image_id: string) => {
 };
 
 export const Modal: FC<IModal> = ({ image_id, onClose }) => {
-  const {
-    data: image,
-    isLoading,
-    isError,
-  } = useQuery<IPhoto>({
+  const { data: image, isLoading } = useQuery<IPhoto>({
     queryKey: ["images", image_id],
     queryFn: () => fetchImage(image_id),
   });
-
-  if (isError) return <div>Error</div>;
 
   return (
     <dialog

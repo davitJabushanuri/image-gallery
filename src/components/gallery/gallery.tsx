@@ -1,11 +1,13 @@
 import { FC, useState, useRef, useEffect } from "react";
 import { useSearchImages } from "@/hooks/use-search-images";
-import { Image } from "@/components/image";
+import { Image, ImageFallback } from "@/components/image";
 
 import styles from "./gallery.module.scss";
 import { IPhoto } from "../types";
 import { NoResults } from "../no-results";
 import { LoadingSpinner } from "../loading-spinner";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorToast } from "../error-toast";
 interface IGallery {
   query: string;
 }
@@ -49,7 +51,8 @@ export const Gallery: FC<IGallery> = ({ query }) => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  if (isError) return <div>Error</div>;
+  if (isError)
+    return <ErrorToast text="There was an error loading the images" />;
 
   if (isSuccess && images?.pages[0].results.length === 0) {
     return <NoResults text="No results found" />;
@@ -66,7 +69,9 @@ export const Gallery: FC<IGallery> = ({ query }) => {
                   ref={i === page.results.length - 1 ? ref : null}
                   key={image.id}
                 >
-                  <Image image={image} />
+                  <ErrorBoundary fallback={<ImageFallback />}>
+                    <Image image={image} />
+                  </ErrorBoundary>
                 </div>
               );
             });
