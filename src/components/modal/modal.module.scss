@@ -23,6 +23,7 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
     gap: 1rem;
+    animation: slideIn 0.3s ease;
 
     .close {
       padding: 0.4rem;
@@ -111,5 +112,16 @@
 @keyframes shimmer {
   100% {
     transform: translateX(100%);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
