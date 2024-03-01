@@ -11,7 +11,7 @@ export const HistoryPage = () => {
         paddingInline: "1rem",
       }}
     >
-      <History setQuery={setQuery} />
+      <History query={query} setQuery={setQuery} />
       <Gallery query={query} />
     </div>
   );

@@ -3,10 +3,11 @@ import styles from "./history.module.scss";
 import { CloseIcon } from "@/assets/close-icon";
 
 interface IHistory {
+  query: string;
   setQuery: (query: string) => void;
 }
 
-export const History: FC<IHistory> = ({ setQuery }) => {
+export const History: FC<IHistory> = ({ query, setQuery }) => {
   const [history, setHistory] = useState<string[]>(
     JSON.parse(localStorage.getItem("searchQuery") as string) || [],
   );
@@ -18,27 +19,32 @@ export const History: FC<IHistory> = ({ setQuery }) => {
 
   return (
     <div className={styles.container}>
-      {history?.reverse()?.map((query: string) => {
+      {history?.reverse()?.map((historyQuery: string) => {
         return (
-          <div key={query}>
-            <button className={styles.search} onClick={() => setQuery(query)}>
-              {query}
+          <div key={historyQuery}>
+            <button
+              className={styles.search}
+              onClick={() => setQuery(historyQuery)}
+            >
+              {historyQuery}
             </button>
             <button
               aria-label="Delete from history"
               title="Delete from history"
               className={styles.delete}
               onClick={() => {
-                const searchQueries = JSON.parse(
+                const historyQueries = JSON.parse(
                   localStorage.getItem("searchQuery") as string,
                 );
-                const index = searchQueries.indexOf(query);
-                searchQueries.splice(index, 1);
+                const index = historyQueries.indexOf(historyQuery);
+                historyQueries.splice(index, 1);
                 localStorage.setItem(
                   "searchQuery",
-                  JSON.stringify(searchQueries),
+                  JSON.stringify(historyQueries),
                 );
-                setHistory(searchQueries);
+                setHistory(historyQueries);
+                console.log(query, historyQuery);
+                if (query === historyQuery) setQuery("");
               }}
             >
               <CloseIcon />
