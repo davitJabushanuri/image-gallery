@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import styles from "./history.module.scss";
 import { CloseIcon } from "@/assets/close-icon";
+import { NoResults } from "../no-results";
 
 interface IHistory {
   query: string;
@@ -12,9 +13,7 @@ export const History: FC<IHistory> = ({ query, setQuery }) => {
     JSON.parse(localStorage.getItem("searchQuery") as string) || [],
   );
   if (history.length === 0) {
-    return (
-      <h2 className={styles.emptyHistory}>Your search history is empty</h2>
-    );
+    return <NoResults text="Your search history is empty" />;
   }
 
   return (
