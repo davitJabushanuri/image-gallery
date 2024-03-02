@@ -1,6 +1,8 @@
+import { ErrorToast } from "@/components/error-toast";
 import { Gallery } from "@/components/gallery";
 import { History } from "@/components/history";
 import { useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 export const HistoryPage = () => {
   const [query, setQuery] = useState("");
@@ -12,7 +14,9 @@ export const HistoryPage = () => {
       }}
     >
       <History query={query} setQuery={setQuery} />
-      <Gallery query={query} />
+      <ErrorBoundary FallbackComponent={ErrorToast}>
+        <Gallery query={query} />
+      </ErrorBoundary>
     </div>
   );
 };
