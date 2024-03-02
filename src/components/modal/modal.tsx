@@ -6,29 +6,20 @@ import { useQuery } from "@tanstack/react-query";
 import { LoadingSpinner } from "../loading-spinner";
 import { IPhoto } from "../types";
 import { createPortal } from "react-dom";
+import { fetchImages } from "@/api/fetch-images";
 
 interface IModal {
   image_id: string;
   onClose: () => void;
 }
 
-const fetchImage = async (image_id: string) => {
+export const Modal: FC<IModal> = ({ image_id, onClose }) => {
   const URL = `https://api.unsplash.com/photos/${image_id}?client_id=${
     import.meta.env.VITE_APP_ACCESS_KEY
   }`;
-  try {
-    const response = await fetch(URL);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    throw new Error("Failed to fetch image");
-  }
-};
-
-export const Modal: FC<IModal> = ({ image_id, onClose }) => {
   const { data: image, isLoading } = useQuery<IPhoto>({
     queryKey: ["images", image_id],
-    queryFn: () => fetchImage(image_id),
+    queryFn: () => fetchImages(URL),
   });
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -144,11 +135,11 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
             </Stat>
           </div>
         ) : (
-          <div className={styles.stats}>
+          <ul className={styles.stats}>
             <Stat label="Views">{image?.views.toLocaleString()}</Stat>
             <Stat label="Likes">{image?.likes.toLocaleString()}</Stat>
             <Stat label="Downloads">{image?.downloads.toLocaleString()}</Stat>
-          </div>
+          </ul>
         )}
       </div>
     </div>,
