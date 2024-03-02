@@ -5,6 +5,7 @@ import { CloseIcon } from "@/assets/close-icon";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingSpinner } from "../loading-spinner";
 import { IPhoto } from "../types";
+import { createPortal } from "react-dom";
 
 interface IModal {
   image_id: string;
@@ -90,10 +91,12 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
     };
   }, [onClose]);
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
+      id="modal"
+      aria-label={`${image?.alt_description} details`}
       ref={modalRef}
       className={styles.container}
       onClick={(e) => {
@@ -148,7 +151,8 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 
