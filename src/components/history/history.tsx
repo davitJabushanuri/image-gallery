@@ -42,7 +42,6 @@ export const History: FC<IHistory> = ({ query, setQuery }) => {
                   JSON.stringify(historyQueries),
                 );
                 setHistory(historyQueries);
-                console.log(query, historyQuery);
                 if (query === historyQuery) setQuery("");
               }}
             >

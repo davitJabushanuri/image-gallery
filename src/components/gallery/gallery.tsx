@@ -68,7 +68,6 @@ export const Gallery: FC<IGallery> = ({ query }) => {
               return page?.results?.map((image, i) => {
                 return (
                   <li
-                    aria-hidden={true}
                     ref={i === page.results.length - 1 ? ref : null}
                     key={image.id}
                   >

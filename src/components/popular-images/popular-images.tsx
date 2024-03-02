@@ -19,7 +19,7 @@ export const PopularImages = () => {
       <ul aria-labelledby="popular-heading" className={styles.container}>
         {data?.map((image) => {
           return (
-            <li aria-hidden={true} key={image.id}>
+            <li key={image.id}>
               <ErrorBoundary fallback={<ImageFallback />}>
                 <Image image={image} />
               </ErrorBoundary>
