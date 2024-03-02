@@ -1,18 +1,18 @@
 import { FC } from "react";
 import styles from "./error-toast.module.scss";
 import { CloseIcon } from "@/assets/close-icon";
+import { IErrorFallback } from "@/types";
 
-interface IError {
-  text: string;
-}
-
-export const ErrorToast: FC<IError> = ({ text }) => {
+export const ErrorToast: FC<IErrorFallback> = ({
+  error,
+  resetErrorBoundary,
+}) => {
   return (
     <div className={styles.container}>
       <div></div>
-      <p>{text}</p>
+      <p>{error.message}</p>
       <button
-        onClick={() => window.location.reload()}
+        onClick={resetErrorBoundary}
         title="Close"
         aria-label="Close"
         className={styles.close}

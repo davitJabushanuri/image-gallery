@@ -16,7 +16,7 @@
   }
 
   p {
-    color: var(--clr-base-100);
+    color: var(--clr-white);
   }
 
   button {
@@ -26,18 +26,18 @@
     align-items: center;
     border-radius: 100vmax;
     width: fit-content;
+    fill: var(--clr-white);
 
     svg {
-      fill: var(--clr-base-100);
       width: 1.4rem;
     }
 
     &:hover {
-      color: var(--clr-base-200);
+      color: var(--clr-white);
     }
 
     &:active {
-      color: var(--clr-base-300);
+      color: var(--clr-white);
     }
   }
 }
