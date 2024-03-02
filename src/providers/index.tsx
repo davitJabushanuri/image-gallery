@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ErrorBoundary } from "react-error-boundary";
 import styles from "./error-fallback.module.scss";
+import { IErrorFallback } from "@/types";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -10,6 +11,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 5, // 5 minutes
       refetchInterval: 1000 * 60 * 5, // 5 minutes
+      throwOnError: true,
     },
   },
 });
@@ -21,7 +23,7 @@ interface IAppProvider {
 export const AppProvider: FC<IAppProvider> = ({ children }) => {
   return (
     <ErrorBoundary
-      FallbackComponent={ErrorFallback}
+      FallbackComponent={GlobalErrorFallback}
       onReset={() => {
         window.location.assign(window.location.origin);
       }}
@@ -34,12 +36,7 @@ export const AppProvider: FC<IAppProvider> = ({ children }) => {
   );
 };
 
-interface IErrorFallback {
-  error: Error;
-  resetErrorBoundary: () => void;
-}
-
-export const ErrorFallback: FC<IErrorFallback> = ({
+export const GlobalErrorFallback: FC<IErrorFallback> = ({
   error,
   resetErrorBoundary,
 }) => {

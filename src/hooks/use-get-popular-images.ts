@@ -1,5 +1,5 @@
 import { fetchImages } from "@/api/fetch-images";
-import { IPhoto } from "@/components/types";
+import { IPhoto } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetPopularImages = () => {

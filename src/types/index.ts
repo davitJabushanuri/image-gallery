@@ -19,3 +19,8 @@ interface IUrls {
   small: string;
   thumb: string;
 }
+
+export interface IErrorFallback {
+  error: Error;
+  resetErrorBoundary: () => void;
+}

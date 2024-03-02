@@ -3,11 +3,10 @@ import { useSearchImages } from "@/hooks/use-search-images";
 import { Image, ImageFallback } from "@/components/image";
 
 import styles from "./gallery.module.scss";
-import { IPhoto } from "../types";
-import { NoResults } from "../no-results";
-import { LoadingSpinner } from "../loading-spinner";
+import { IPhoto } from "@/types";
+import { NoResults } from "@/components/no-results";
+import { LoadingSpinner } from "@/components/loading-spinner";
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorToast } from "../error-toast";
 interface IGallery {
   query: string;
 }
@@ -22,7 +21,6 @@ export const Gallery: FC<IGallery> = ({ query }) => {
   const {
     data: images,
     isLoading,
-    isError,
     isSuccess,
     isFetchingNextPage,
     fetchNextPage,
@@ -50,9 +48,6 @@ export const Gallery: FC<IGallery> = ({ query }) => {
   }, [fetchNextPage, hasNextPage, isIntersecting]);
 
   if (isLoading) return <LoadingSpinner />;
-
-  if (isError)
-    return <ErrorToast text="There was an error loading the images" />;
 
   if (isSuccess && images?.pages[0].results.length === 0) {
     return <NoResults text="No results found" />;

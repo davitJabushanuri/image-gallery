@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { Modal } from "@/components/modal";
-import { IPhoto } from "../types";
+import { IPhoto } from "@/types";
 
 interface IImage {
   image: IPhoto;
@@ -34,7 +34,7 @@ export const Image: FC<IImage> = ({ image }) => {
 
       {isOpen && (
         <ErrorBoundary
-          fallback={<ErrorToast text="There was an error loading this photo" />}
+          FallbackComponent={ErrorToast}
           onReset={() => {
             window.location.reload();
           }}
