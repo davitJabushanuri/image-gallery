@@ -6,5 +6,5 @@ interface INoResults {
 }
 
 export const NoResults: FC<INoResults> = ({ text }) => {
-  return <h2 className={styles.contianer}>{text}</h2>;
+  return <h2 className={styles.container}>{text}</h2>;
 };
