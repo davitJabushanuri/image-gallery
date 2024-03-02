@@ -32,7 +32,7 @@ export const Gallery: FC<IGallery> = ({ query }) => {
     (images?.pageParams.at(-1) as number) < images?.pages[0].total_pages;
 
   const [isIntersecting, setIsIntersecting] = useState<boolean>(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -60,23 +60,27 @@ export const Gallery: FC<IGallery> = ({ query }) => {
 
   return (
     <>
-      <div className={styles.container}>
-        {isSuccess &&
-          images?.pages.map((page: IPage) => {
-            return page?.results?.map((image, i) => {
-              return (
-                <div
-                  ref={i === page.results.length - 1 ? ref : null}
-                  key={image.id}
-                >
-                  <ErrorBoundary fallback={<ImageFallback />}>
-                    <Image image={image} />
-                  </ErrorBoundary>
-                </div>
-              );
-            });
-          })}
-      </div>
+      <section>
+        {query && <h1 id="search-heading">Search results for: {query}</h1>}
+        <ul aria-labelledby="search-heading" className={styles.container}>
+          {isSuccess &&
+            images?.pages.map((page: IPage) => {
+              return page?.results?.map((image, i) => {
+                return (
+                  <li
+                    aria-hidden={true}
+                    ref={i === page.results.length - 1 ? ref : null}
+                    key={image.id}
+                  >
+                    <ErrorBoundary fallback={<ImageFallback />}>
+                      <Image image={image} />
+                    </ErrorBoundary>
+                  </li>
+                );
+              });
+            })}
+        </ul>
+      </section>
       {isFetchingNextPage && <LoadingSpinner />}
     </>
   );

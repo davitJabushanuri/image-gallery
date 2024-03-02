@@ -17,7 +17,7 @@ export const History: FC<IHistory> = ({ query, setQuery }) => {
   }
 
   return (
-    <div className={styles.container}>
+    <aside aria-label="Search history" className={styles.container}>
       {history?.reverse()?.map((historyQuery: string) => {
         return (
           <div key={historyQuery}>
@@ -28,8 +28,8 @@ export const History: FC<IHistory> = ({ query, setQuery }) => {
               {historyQuery}
             </button>
             <button
-              aria-label="Delete from history"
-              title="Delete from history"
+              aria-label={`Delete "${historyQuery}" from history`}
+              title={`Delete "${historyQuery}" from history`}
               className={styles.delete}
               onClick={() => {
                 const historyQueries = JSON.parse(
@@ -51,6 +51,6 @@ export const History: FC<IHistory> = ({ query, setQuery }) => {
           </div>
         );
       })}
-    </div>
+    </aside>
   );
 };

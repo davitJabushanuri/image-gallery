@@ -14,16 +14,19 @@ export const PopularImages = () => {
   if (isError) return <ErrorToast text="There was an error loading images" />;
 
   return (
-    <div className={styles.container}>
-      {data?.map((image) => {
-        return (
-          <div key={image.id}>
-            <ErrorBoundary fallback={<ImageFallback />}>
-              <Image image={image} />
-            </ErrorBoundary>
-          </div>
-        );
-      })}
-    </div>
+    <section>
+      <h1 id="popular-heading">Top 20 most popular images</h1>
+      <ul aria-labelledby="popular-heading" className={styles.container}>
+        {data?.map((image) => {
+          return (
+            <li aria-hidden={true} key={image.id}>
+              <ErrorBoundary fallback={<ImageFallback />}>
+                <Image image={image} />
+              </ErrorBoundary>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 };

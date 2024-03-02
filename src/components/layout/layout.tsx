@@ -12,7 +12,7 @@ export const Layout: FC<ILayout> = ({ children }) => {
       <header>
         <Navbar />
       </header>
-      {children}
+      <main>{children}</main>
     </div>
   );
 };

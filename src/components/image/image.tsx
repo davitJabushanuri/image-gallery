@@ -16,6 +16,10 @@ export const Image: FC<IImage> = ({ image }) => {
   return (
     <>
       <button
+        aria-haspopup="dialog"
+        aria-controls="modal"
+        aria-label={image?.alt_description}
+        role="img"
         onClick={() => {
           setIsOpen(true);
         }}
