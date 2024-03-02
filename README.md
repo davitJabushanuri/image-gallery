@@ -1,30 +1,74 @@
-# React + TypeScript + Vite
+# Image Gallery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[Preview](https://image-gallery-opal-tau.vercel.app/)
 
-Currently, two official plugins are available:
+This is a React and TypeScript-based project that provides a simple and interactive interface to search and view images. The project uses the Unsplash API to fetch images and display them on the page.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Accessibility-Focused** - Built with adherence to WCAG guidelines:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+  - **Meaningful Structure**: Headings, landmarks, and ARIA attributes are used to structure the content effectively.
+  - **Keyboard Navigation**: Navigate the application effortlessly using your keyboard with logical tab order.
+  - **Focus Indicators**: Interactive elements have clear visual cues when focused.
+  - **Screen Reader Support**: The app is optimized for use with screen readers.
+  - **Alternative Text for Images**: Images are accompanied by descriptive alt text, conveying their meaning to screen reader users and improving SEO.
 
-- Configure the top-level `parserOptions` property like this:
+- **Automatic Color Scheme**: The application adapts to your system's theme preference.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Main Page**: The main page showcases the top 20 trending photos from Unsplash. A dynamic search box is also present, which allows for real-time image search. As you input your search terms, the page updates instantly to display the corresponding results, utilizing an infinite query mechanism.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- **Top 20 Showcase**: Displays a curated selection of stunning images upon initial load.
+
+- **Search**: Effortlessly find specific images using the intuitive search bar. As you type, relevant suggestions are displayed in real-time. It utilizes infinite queries to ensure better performance and user experience.
+
+- **Search History**: Keep track of your past searches for easy revisiting or removal.
+
+- **Image Details Modal**: Clicking on an image opens a modal, providing a closer look at the image along with valuable information like views, likes, and downloads.
+
+- **Caching**: React Query ensures a smooth experience by caching fetched images. Cached results are automatically refreshed every 5 minutes to maintain data accuracy.
+
+- **Error Handling**: Gracefully handles unexpected errors to prevent application crashes and Informs users about any issues encountered.
+
+## Getting Started
+
+To get a local copy up and running, follow these steps:
+
+1. Clone the repository:
+
+   ```sh
+   git clone git@github.com:davitJabushanuri/image-gallery.git
+   ```
+
+2. Install the dependencies:
+
+   ```sh
+   pnpm install
+   ```
+
+3. Obtain an access key from the Unsplash API:
+
+   - Visit [Unsplash Developers](https://unsplash.com/developers)
+   - Register as a developer and create a new application
+   - copy the access and secret keys to the .env file
+
+   ```sh
+   VITE_APP_ACCESS_KEY=your access key
+   VITE_APP_SECRET_KEY=your secret key
+   ```
+
+   check the .env.example file in the project for reference.
+
+4. Start the development server:
+
+   ```sh
+   pnpm dev
+   ```
+
+## Built with
+
+- React
+- TypeScript
+- Tanstack Query
+- Unsplash API
+- SCSS and CSS modules
