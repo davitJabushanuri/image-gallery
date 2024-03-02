@@ -70,10 +70,36 @@ svg {
   fill: currentColor;
 }
 
-[data-theme="light"] {
-  color-scheme: dark;
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --clr-base-100: rgb(255, 255, 255);
+  --clr-base-200: rgb(220, 220, 220);
+  --clr-base-300: rgb(200, 200, 200);
+  --clr-text-100: rgb(35, 35, 35);
+  --clr-text-200: rgb(45, 45, 45);
+  --clr-text-300: rgb(55, 55, 55);
+  --clr-secondary: rgb(238, 238, 238);
+  --clr-tertiary: rgb(118, 118, 118);
+  --clr-error: rgb(226, 92, 61);
+  --clr-backdrop: rgba(0, 0, 0, 0.6);
+
+  --clr-linear: 255, 255, 255;
 }
 
-[data-theme="dark"] {
-  color-scheme: light;
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --clr-base-100: rgb(3, 3, 3);
+  --clr-base-200: rgb(13, 13, 13);
+  --clr-base-300: rgb(23, 23, 23);
+  --clr-text-100: rgb(255, 255, 255);
+  --clr-text-200: rgb(220, 220, 220);
+  --clr-text-300: rgb(200, 200, 200);
+  --clr-secondary: rgb(71, 71, 71);
+  --clr-tertiary: rgb(118, 118, 118);
+  --clr-error: rgb(226, 92, 61);
+  --clr-backdrop: rgba(105, 104, 104, 0.6);
+
+  --clr-linear: 100, 100, 100;
 }

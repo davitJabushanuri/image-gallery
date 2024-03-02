@@ -2,14 +2,13 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-  padding: 1rem;
 
   a {
     text-align: center;
     position: relative;
     padding: 0.6rem 0.4rem;
     color: var(--clr-tertiary);
-    font-size: 0.9rem;
+    font-weight: 500;
     transition: color 0.15s ease-in-out;
 
     &:hover {

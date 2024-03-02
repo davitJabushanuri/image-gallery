@@ -8,7 +8,6 @@
     background-color: var(--clr-secondary);
     box-shadow: 0 0 0 1px var(--clr-secondary);
     border-radius: 0.5rem;
-    transition: background-color 0.1s ease-in-out;
 
     &:hover {
       background-color: color-mix(
