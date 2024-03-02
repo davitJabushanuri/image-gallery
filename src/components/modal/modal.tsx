@@ -3,8 +3,8 @@ import { FC, useEffect, useRef } from "react";
 import styles from "./modal.module.scss";
 import { CloseIcon } from "@/assets/close-icon";
 import { useQuery } from "@tanstack/react-query";
-import { LoadingSpinner } from "../loading-spinner";
-import { IPhoto } from "../types";
+import { LoadingSpinner } from "@/components/loading-spinner";
+import { IPhoto } from "@/types";
 import { createPortal } from "react-dom";
 import { fetchImages } from "@/api/fetch-images";
 
@@ -82,6 +82,8 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
     };
   }, [onClose]);
 
+  if (!image_id) throw new Error("Something went wrong. Try again later");
+
   return createPortal(
     <div
       role="dialog"
@@ -118,7 +120,7 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
           </div>
         ) : (
           <div className={styles.image}>
-            <img src={image?.urls.regular} alt={image?.alt_description} />
+            <img src={image?.urls?.regular} alt={image?.alt_description} />
           </div>
         )}
 
@@ -136,9 +138,9 @@ export const Modal: FC<IModal> = ({ image_id, onClose }) => {
           </div>
         ) : (
           <ul className={styles.stats}>
-            <Stat label="Views">{image?.views.toLocaleString()}</Stat>
-            <Stat label="Likes">{image?.likes.toLocaleString()}</Stat>
-            <Stat label="Downloads">{image?.downloads.toLocaleString()}</Stat>
+            <Stat label="Views">{image?.views?.toLocaleString()}</Stat>
+            <Stat label="Likes">{image?.likes?.toLocaleString()}</Stat>
+            <Stat label="Downloads">{image?.downloads?.toLocaleString()}</Stat>
           </ul>
         )}
       </div>
