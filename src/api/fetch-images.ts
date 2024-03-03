@@ -2,6 +2,10 @@ export const fetchImages = async (URL: string) => {
   try {
     const response = await fetch(URL);
 
+    if (response.status === 403) {
+      throw new Error("Rate limit exceeded. Try again later.");
+    }
+
     if (!response.ok) {
       throw new Error("Server is not responding. Try again later.");
     }
