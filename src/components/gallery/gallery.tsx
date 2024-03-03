@@ -50,7 +50,7 @@ export const Gallery: FC<IGallery> = ({ query }) => {
   if (isLoading) return <LoadingSpinner />;
 
   if (isSuccess && images?.pages[0].results.length === 0) {
-    return <NoResults text="No results found" />;
+    return <NoResults text={`No results found for "${query}"`} />;
   }
 
   return (
