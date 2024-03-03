@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useEffect } from "react";
+import { FC, useRef, useCallback } from "react";
 import { useSearchImages } from "@/hooks/use-search-images";
 import { Image, ImageFallback } from "@/components/image";
 
@@ -29,23 +29,20 @@ export const Gallery: FC<IGallery> = ({ query }) => {
   const hasNextPage =
     (images?.pageParams.at(-1) as number) < images?.pages[0].total_pages;
 
-  const [isIntersecting, setIsIntersecting] = useState<boolean>(false);
-  const ref = useRef<HTMLLIElement>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsIntersecting(entry.isIntersecting);
-    });
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    if (isIntersecting && hasNextPage) {
-      fetchNextPage();
-    }
-
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isIntersecting]);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const ref = useCallback(
+    (node: HTMLLIElement) => {
+      if (isLoading || isFetchingNextPage) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [fetchNextPage, hasNextPage, isLoading, isFetchingNextPage],
+  );
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -61,11 +58,17 @@ export const Gallery: FC<IGallery> = ({ query }) => {
           {isSuccess &&
             images?.pages.map((page: IPage) => {
               return page?.results?.map((image, i) => {
+                if (i === page.results.length - 1) {
+                  return (
+                    <li ref={ref} key={image.id}>
+                      <ErrorBoundary fallback={<ImageFallback />}>
+                        <Image image={image} />
+                      </ErrorBoundary>
+                    </li>
+                  );
+                }
                 return (
-                  <li
-                    ref={i === page.results.length - 1 ? ref : null}
-                    key={image.id}
-                  >
+                  <li key={image.id}>
                     <ErrorBoundary fallback={<ImageFallback />}>
                       <Image image={image} />
                     </ErrorBoundary>
