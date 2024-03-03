@@ -14,7 +14,6 @@ export const fetchImages = async (URL: string) => {
     return data;
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);
-
-    throw new Error("Failed to fetch");
+    else throw new Error("Failed to fetch");
   }
 };
